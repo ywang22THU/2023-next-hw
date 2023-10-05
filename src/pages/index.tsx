@@ -77,9 +77,20 @@ const BoardScreen = () => {
         };
     }, [board, id, dispatch]);
 
+    useEffect(()=>{
+        if(autoPlay){
+            timerRef.current = setInterval(() => {
+                setBoard((board)=>stepBoard(board));
+            }, 200);
+        }
+        else{
+            clearInterval(timerRef.current);
+        }
+    },[autoPlay]);
+
     const switchAutoPlay = () => {
         // Step 3 BEGIN
-        timerRef.current = setInterval(() => {}, 200);
+        setAutoPlay((autoPlay)=>!autoPlay);
         // Step 3 END
     };
 

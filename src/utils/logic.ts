@@ -41,7 +41,33 @@ export const stepBoard = (board: Board): Board => {
      * @note 你可以使用命令 yarn test step 来运行我们编写的单元测试与我们提供的参考实现对拍
      */
     // Step 1 BEGIN
-
+    for(let i = 0; i < BOARD_LENGTH; i++){
+        const row: (0|1)[] = [];
+        for(let j = 0; j < BOARD_LENGTH; j++){
+            let aliveNeibor = 0;
+            const up = i===0 ? BOARD_LENGTH-1 : i-1;
+            const down = i===BOARD_LENGTH-1 ? 0 : i+1;
+            const left = j===0 ? BOARD_LENGTH-1 : j-1;
+            const right = j===BOARD_LENGTH-1 ? 0 : j+1;
+            const neibors = [
+                [up , left],[up , j],[up , right],
+                [i ,  left],         [i ,  right],
+                [down,left],[down,j],[down,right]
+            ];
+            neibors.forEach((neibor) => {
+                if(board[neibor[0]][neibor[1]] === 1){
+                    aliveNeibor++;
+                }
+            });
+            if(board[i][j] === 1){
+                row.push((aliveNeibor === 2 || aliveNeibor === 3) ? 1 : 0);
+            }
+            else{
+                row.push(aliveNeibor===3 ? 1 : 0);
+            }
+        }
+        newBoard.push(row);
+    }
     // Step 1 END
 
     return newBoard;
@@ -53,7 +79,20 @@ export const flipCell = (board: Board, i: number, j: number): Board => {
      * @note 你可以使用命令 yarn test flip 来运行我们编写的单元测试以检验自己的实现
      */
     // Step 3 BEGIN
-
+    const newBoard: Board = [];
+    for(let x = 0; x < BOARD_LENGTH; x++){
+        const row: (0|1)[] = [];
+        for(let y = 0; y < BOARD_LENGTH; y++){
+            if(x===i && y===j){
+                row.push(board[x][y] === 0 ? 1 : 0);
+            }
+            else{
+                row.push(board[x][y]);
+            }
+        }
+        newBoard.push(row);
+    }
+    return newBoard;
     // Step 3 END
 
     /**

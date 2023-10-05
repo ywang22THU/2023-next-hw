@@ -3,6 +3,7 @@
  *       我们推荐你在大作业中也尝试写一个网络请求 wrapper，本文件可以用作参考
  */
 
+import { headers } from "next/dist/client/components/headers";
 import store from "../redux/store";
 
 export enum NetworkErrorType {
@@ -40,7 +41,13 @@ export const request = async (
      * @todo [Step 4] 请在下述两处代码缺失部分以正确根据 `needAuth` 参数读取 JWT 信息并构建请求头
      */
     // Step 4 BEGIN
-
+    let header;
+    if(needAuth){
+        const jwt_token = store.getState().auth.token;
+        header = {
+            Authorization : jwt_token
+        };
+    }
     // Step 4 END
 
     const response = await fetch(url, {
@@ -48,7 +55,7 @@ export const request = async (
         body: body && JSON.stringify(body),
 
         // Step 4 BEGIN
-
+        headers : needAuth ? header : undefined
         // Step 4 END
     });
 
