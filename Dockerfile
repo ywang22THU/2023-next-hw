@@ -25,7 +25,7 @@ COPY --from=build /app/.next/static ./.next/static
 
 ENV PORT 3000
 
-ENV HOSTNAME undifined
+ENV HOSTNAME 0.0.0.0
 
 EXPOSE 3000
 
